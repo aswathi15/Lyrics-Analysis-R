@@ -37,7 +37,7 @@ c + geom_histogram(binwidth=0.1,aes(fill = Label),color="Black")
 iris_new[iris_new$Sepal > 3 & iris_new$Petal > 0.4,]
 
 #---------------LAB 2
-levels(iris_new$Label)[1] <- -1
+levels(iris_new$Label)[1] <- 0
 levels(iris_new$Label)
 levels(iris_new$Label)[2] <- 1
 levels(iris_new$Label)
@@ -78,7 +78,7 @@ y_hat = 0.22105 - 0.44259*test_set$Sepal + 1.47443*test_set$Petal
 
 # Predicting the Test set results, got the same result using the predict function
 y_pred = predict(regressor_1,newdata = test_set)
-
+print(y_pred)
 #head(test_set)
 #test_set$Label - y_pred
 RSS <- sum((test_set$Label - y_pred) ^2)
