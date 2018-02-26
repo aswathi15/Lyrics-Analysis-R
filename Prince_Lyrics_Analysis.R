@@ -92,3 +92,46 @@ theme_lyrics <- function()
         panel.grid.minor = element_blank(),
         legend.position = "none")
 }
+
+prince %>%
+  filter(decade != "NA") %>%
+  group_by(decade,charted) %>%
+  summarise(number_of_songs = n()) %>%
+  ggplot() +
+  geom_bar(aes(x=decade,y=number_of_songs,fill=charted),stat ='identity') +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.title = element_blank()) +
+  ggtitle("Released songs") +
+  labs(x= NULL,y="Song count")
+
+prince %>%
+  filter(peak > 0) %>%
+  group_by(decade,chart_level) %>%
+  summarise(number_of_songs = n()) %>%
+  ggplot() +
+  geom_bar(aes(x = decade,y=number_of_songs,fill=chart_level),stat='identity')+
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.title = element_blank()) +
+  ggtitle("Charted Songs") +
+  labs(x=NULL,y="Song count")
+
+#Songs that hit no 1. on the chart
+library(knitr) # for dynamic reporting
+#install.packages("kableExtra")
+#install.packages("formattable")
+library(kableExtra) # create a nicely formated HTML table
+library(formattable) # for the color_tile function
+
+
+prince %>%
+  filter(peak == "1") %>%
+  select(year,song,peak) %>%
+  arrange(year) %>%
+  mutate(year = color_tile("lightblue","lightgreen")(year)) %>%
+  mutate(peak = color_tile("lightgreen","lightgreen")(peak)) %>%
+  kable("html",escape = FALSE,align = 'c',caption = 'Princes No.1 Songs') %>%
+  kable_styling(bootstrap_options = 
+                  c("striped","condensed","bordered"),
+                full_width = FALSE)
+
+#--------------TEXT MINING --------------------------------------
